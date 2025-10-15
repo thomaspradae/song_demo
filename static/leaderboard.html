@@ -8,19 +8,35 @@
     img { width: 60px; height: 60px; border-radius: 5px; }
     table { margin: auto; border-collapse: collapse; }
     th, td { padding: 10px; border-bottom: 1px solid #ccc; }
+    button {
+      margin: 15px;
+      padding: 10px 20px;
+      font-size: 14px;
+      background: #f33;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #c00; }
   </style>
 </head>
 <body>
   <h1>Live Leaderboard</h1>
+  <h3 id="total"></h3>
+  <button onclick="resetLeaderboard()">Reset Leaderboard</button>
   <table id="leaderboard"></table>
 
   <script>
     async function updateLeaderboard() {
       const res = await fetch('/leaderboard');
       const data = await res.json();
+      const songs = data.songs;
+      const total = data.total_matches;
+      document.getElementById('total').innerText = `Total Matches Played: ${total}`;
       const table = document.getElementById('leaderboard');
-      table.innerHTML = '<tr><th>#</th><th>Cover</th><th>Title</th><th>Artist</th><th>ELO</th></tr>';
-      data.forEach((song, i) => {
+      table.innerHTML = '<tr><th>#</th><th>Cover</th><th>Title</th><th>Artist</th><th>ELO</th><th>Matches</th><th>σ</th></tr>';
+      songs.forEach((song, i) => {
         table.innerHTML += `
           <tr>
             <td>${i+1}</td>
@@ -28,8 +44,17 @@
             <td>${song.title}</td>
             <td>${song.artist}</td>
             <td>${song.elo.toFixed(0)}</td>
+            <td>${song.matches}</td>
+            <td>${song.sigma.toFixed(1)}</td>
           </tr>`;
       });
+    }
+
+    async function resetLeaderboard() {
+      if (confirm("Reset all votes and scores?")) {
+        await fetch('/reset', { method: 'POST' });
+        updateLeaderboard();
+      }
     }
 
     updateLeaderboard();
