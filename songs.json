@@ -1,0 +1,9 @@
+[
+  {"id": 1, "title": "Blinding Lights", "artist": "The Weeknd", "cover": "https://i.scdn.co/image/ab67616d0000b273d8b0f0b8dcf83a1c516d0a2f"},
+  {"id": 2, "title": "Money Trees", "artist": "Kendrick Lamar", "cover": "https://i.scdn.co/image/ab67616d0000b273d16a3c7c7f2b93b7d4806a6f"},
+  {"id": 3, "title": "Levitating", "artist": "Dua Lipa", "cover": "https://i.scdn.co/image/ab67616d0000b2733d1a2e4c84b8b3e25d6b6ee9"},
+  {"id": 4, "title": "Dreams", "artist": "Fleetwood Mac", "cover": "https://i.scdn.co/image/ab67616d0000b273a2a7f8f4da0a9121f3a5b3a7"},
+  {"id": 5, "title": "Lose Yourself", "artist": "Eminem", "cover": "https://i.scdn.co/image/ab67616d0000b273d09b7a3f9edb2a54d65b3e5b"},
+  {"id": 6, "title": "Tusa", "artist": "Karol G & Nicki Minaj", "cover": "https://i.scdn.co/image/ab67616d0000b27312bb343aa77a4f4e20c7f1f8"},
+  {"id": 7, "title": "Nights", "artist": "Frank Ocean", "cover": "https://i.scdn.co/image/ab67616d0000b273fd528b0c1f1e96e7b5c6c1c8"}
+]

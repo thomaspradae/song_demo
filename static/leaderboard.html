@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 40px; }
+    img { width: 60px; height: 60px; border-radius: 5px; }
+    table { margin: auto; border-collapse: collapse; }
+    th, td { padding: 10px; border-bottom: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Live Leaderboard</h1>
+  <table id="leaderboard"></table>
+
+  <script>
+    async function updateLeaderboard() {
+      const res = await fetch('/leaderboard');
+      const data = await res.json();
+      const table = document.getElementById('leaderboard');
+      table.innerHTML = '<tr><th>#</th><th>Cover</th><th>Title</th><th>Artist</th><th>ELO</th></tr>';
+      data.forEach((song, i) => {
+        table.innerHTML += `
+          <tr>
+            <td>${i+1}</td>
+            <td><img src="${song.cover}"></td>
+            <td>${song.title}</td>
+            <td>${song.artist}</td>
+            <td>${song.elo.toFixed(0)}</td>
+          </tr>`;
+      });
+    }
+
+    updateLeaderboard();
+    setInterval(updateLeaderboard, 3000);
+  </script>
+</body>
+</html>

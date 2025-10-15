@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 40px; }
+    img { width: 200px; height: 200px; border-radius: 10px; }
+    .song { display: inline-block; margin: 20px; cursor: pointer; }
+    .song:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <h1>Pick Your Favorite Song</h1>
+  <div id="songs"></div>
+  <p id="thanks" style="display:none;">Thanks for voting!</p>
+
+  <script>
+    let votes = 0;
+    const maxVotes = 15;
+
+    async function getPair() {
+      const res = await fetch('/pair');
+      const data = await res.json();
+      renderPair(data.songA, data.songB);
+    }
+
+    async function sendVote(winner, loser) {
+      await fetch('/vote', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({winner_id: winner.id, loser_id: loser.id})
+      });
+    }
+
+    function renderPair(a, b) {
+      const div = document.getElementById('songs');
+      div.innerHTML = '';
+      [a, b].forEach(song => {
+        const el = document.createElement('div');
+        el.className = 'song';
+        el.innerHTML = `<img src="${song.cover}"><br>${song.title}<br><small>${song.artist}</small>`;
+        el.onclick = async () => {
+          const winner = song, loser = (song === a) ? b : a;
+          await sendVote(winner, loser);
+          votes++;
+          if (votes >= maxVotes) {
+            document.getElementById('songs').style.display = 'none';
+            document.getElementById('thanks').style.display = 'block';
+          } else {
+            getPair();
+          }
+        };
+        div.appendChild(el);
+      });
+    }
+
+    getPair();
+  </script>
+</body>
+</html>
